@@ -128,6 +128,7 @@ function RootComponent() {
       <LanguageProvider>
         {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
         <Outlet />
+        <SplashScreen />
         <Toaster position="top-center" />
       </LanguageProvider>
     </QueryClientProvider>
