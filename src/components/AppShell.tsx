@@ -2,6 +2,7 @@ import { Link } from "@tanstack/react-router";
 import { BookOpen, Home, Siren, User, Wifi, WifiOff } from "lucide-react";
 import { useEffect, useState, type ReactNode } from "react";
 
+import logo from "@/assets/logo.png";
 import { useLang } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 
@@ -73,18 +74,32 @@ export function AppShell({ children }: { children: ReactNode }) {
 
   return (
     <div className="mx-auto flex min-h-dvh w-full max-w-md flex-col bg-background">
-      <header className="sticky top-0 z-30 grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 border-b border-border bg-background/95 px-4 py-3 backdrop-blur">
-        <div className="flex min-w-0 items-center gap-2">
+      <header className="sticky top-0 z-30 border-b border-border bg-background/95 backdrop-blur">
+        <div className="flex items-center justify-between gap-3 px-4 pt-3">
+          <Link to="/" className="flex min-w-0 items-center gap-2">
+            <img
+              src={logo}
+              alt="Tanzania SOS logo"
+              width={1024}
+              height={1024}
+              className="size-8 shrink-0 rounded-lg"
+            />
+            <span className="truncate text-base font-extrabold tracking-tight text-foreground">
+              {t("appName")}
+            </span>
+          </Link>
+          <Link
+            to="/profile"
+            aria-label={t("profile")}
+            className="grid size-10 shrink-0 place-items-center rounded-full bg-medical text-medical-foreground text-sm font-bold"
+          >
+            AM
+          </Link>
+        </div>
+        <div className="flex min-w-0 items-center gap-2 px-4 pt-2 pb-3">
           <LanguageSwitcher />
           <ConnectionBadge />
         </div>
-        <Link
-          to="/profile"
-          aria-label={t("profile")}
-          className="grid size-10 shrink-0 place-items-center rounded-full bg-medical text-medical-foreground text-sm font-bold"
-        >
-          AM
-        </Link>
       </header>
 
       <main className="flex-1 pb-24">{children}</main>
