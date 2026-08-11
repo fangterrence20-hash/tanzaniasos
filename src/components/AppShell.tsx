@@ -2,6 +2,7 @@ import { Link } from "@tanstack/react-router";
 import { BookOpen, Home, Siren, User, Wifi, WifiOff } from "lucide-react";
 import { useEffect, useState, type ReactNode } from "react";
 
+import logo from "@/assets/logo.png";
 import { useLang } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 
@@ -99,13 +100,6 @@ export function AppShell({ children }: { children: ReactNode }) {
           <LanguageSwitcher />
           <ConnectionBadge />
         </div>
-        <Link
-          to="/profile"
-          aria-label={t("profile")}
-          className="grid size-10 shrink-0 place-items-center rounded-full bg-medical text-medical-foreground text-sm font-bold"
-        >
-          AM
-        </Link>
       </header>
 
       <main className="flex-1 pb-24">{children}</main>
