@@ -1,9 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { ChevronLeft, ChevronRight, Search, Volume2, WifiOff } from "lucide-react";
+import { ChevronLeft, ChevronRight, Search, Volume2 } from "lucide-react";
 import { useMemo, useState } from "react";
 import { toast } from "sonner";
 
 import { AppShell } from "@/components/AppShell";
+import { OfflineStatus } from "@/components/OfflineStatus";
 import { guides, type Guide } from "@/lib/guides";
 import { useLang } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
@@ -130,10 +131,9 @@ function GuidesScreen() {
         <header>
           <h1 className="text-2xl font-black leading-tight">{t("guidesTitle")}</h1>
           <p className="mt-1 text-sm text-muted-foreground">{t("guidesSub")}</p>
-          <p className="mt-2 inline-flex items-center gap-1.5 rounded-full bg-money/15 px-2.5 py-1 text-xs font-bold text-money">
-            <WifiOff className="size-3.5" aria-hidden />
-            {t("offline")}
-          </p>
+          <div className="mt-2">
+            <OfflineStatus />
+          </div>
         </header>
 
         <div className="flex items-center gap-2 rounded-xl border border-input bg-secondary px-3">
