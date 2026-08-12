@@ -56,8 +56,11 @@ function HomeScreen() {
   const { t } = useLang();
   const navigate = useNavigate();
   const [progress, setProgress] = useState(0);
+  const { location, status, place, retry } = useLiveLocation();
+  const words = location ? threeWords(location.lat, location.lng) : "///…";
   const holding = useRef(false);
   const raf = useRef<number | null>(null);
+
 
   const stop = useCallback(() => {
     holding.current = false;
