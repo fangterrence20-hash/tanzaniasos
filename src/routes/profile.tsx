@@ -34,7 +34,7 @@ export const Route = createFileRoute("/profile")({
 
 const bloodTypes = ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"];
 
-type Contact = { id: number; name: string; phone: string };
+
 
 function Field({
   id,
