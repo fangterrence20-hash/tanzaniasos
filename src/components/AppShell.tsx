@@ -4,7 +4,26 @@ import { useEffect, useState, type ReactNode } from "react";
 
 import logo from "@/assets/logo.png";
 import { useLang } from "@/lib/i18n";
+import { defaultProfile, initials, loadProfile } from "@/lib/profile-storage";
 import { cn } from "@/lib/utils";
+
+function useProfileInitials() {
+  const [value, setValue] = useState(() => initials(defaultProfile.name));
+
+  useEffect(() => {
+    const sync = () => setValue(initials((loadProfile() ?? defaultProfile).name));
+    sync();
+    window.addEventListener("tz-sos-profile-updated", sync);
+    window.addEventListener("storage", sync);
+    return () => {
+      window.removeEventListener("tz-sos-profile-updated", sync);
+      window.removeEventListener("storage", sync);
+    };
+  }, []);
+
+  return value;
+}
+
 
 function LanguageSwitcher() {
   const { lang, setLang } = useLang();
