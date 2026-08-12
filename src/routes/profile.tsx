@@ -1,11 +1,17 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Plus, Trash2, User } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
 import { AppShell } from "@/components/AppShell";
 import { Switch } from "@/components/ui/switch";
 import { useLang } from "@/lib/i18n";
+import {
+  defaultProfile,
+  loadProfile,
+  saveProfile,
+  type Contact,
+} from "@/lib/profile-storage";
 
 export const Route = createFileRoute("/profile")({
   head: () => ({
