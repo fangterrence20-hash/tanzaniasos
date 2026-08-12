@@ -32,33 +32,19 @@ const providers = [
   { id: "tigo", name: "Mixx by Yas (Tigo Pesa)", prefix: "+255 71" },
 ] as const;
 
-function MapBackdrop() {
-  return (
-    <div
-      className="relative h-64 overflow-hidden rounded-xl border border-border bg-secondary"
-      aria-hidden
-    >
-      <div className="absolute inset-0 opacity-40 [background-image:linear-gradient(var(--color-border)_1px,transparent_1px),linear-gradient(90deg,var(--color-border)_1px,transparent_1px)] [background-size:32px_32px]" />
-      <svg className="absolute inset-0 size-full" viewBox="0 0 320 256" fill="none">
-        <path d="M0 190 H130 V60 H320" className="stroke-muted" strokeWidth="14" />
-        <path d="M40 256 V120 H320" className="stroke-muted" strokeWidth="10" />
-        <path
-          d="M250 45 C210 70 180 120 165 155"
-          className="stroke-medical"
-          strokeWidth="4"
-          strokeDasharray="10 8"
-        />
-      </svg>
-      <div className="absolute left-1/2 top-[60%] -translate-x-1/2 -translate-y-1/2">
-        <span className="absolute -inset-6 rounded-full bg-medical/20 radar-sweep" />
-        <span className="relative grid size-5 place-items-center rounded-full bg-medical ring-4 ring-medical/30" />
-      </div>
-      <div className="absolute right-12 top-6 grid size-10 place-items-center rounded-full bg-sos text-sos-foreground shadow-card">
-        <Ambulance className="size-5" />
-      </div>
-    </div>
-  );
+/** Simulated responder that closes in on the user's real GPS position. */
+function useApproachingUnit(lat?: number, lng?: number) {
+  const [t, setT] = useState(0);
+  useEffect(() => {
+    const id = setInterval(() => setT((v) => Math.min(1, v + 0.02)), 700);
+    return () => clearInterval(id);
+  }, []);
+  if (lat == null || lng == null) return null;
+  const startLat = lat + 0.018;
+  const startLng = lng - 0.014;
+  return { lat: startLat + (lat - startLat) * t, lng: startLng + (lng - startLng) * t };
 }
+
 
 function DispatchScreen() {
   const { t } = useLang();
