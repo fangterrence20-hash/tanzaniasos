@@ -8,9 +8,10 @@ import { cn } from "@/lib/utils";
 const LiveMap = lazy(() => import("@/components/LiveMap"));
 
 type Props = {
-  lat?: number;
-  lng?: number;
+  lat?: number | undefined;
+  lng?: number | undefined;
   accuracy?: number | undefined;
+
   status: LocationStatus;
   unit?: { lat: number; lng: number } | null | undefined;
   className?: string | undefined;
