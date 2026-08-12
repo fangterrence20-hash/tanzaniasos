@@ -13,8 +13,11 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 
 import { AppShell } from "@/components/AppShell";
+import { MapPanel } from "@/components/MapPanel";
 import { useLang } from "@/lib/i18n";
+import { threeWords, useLiveLocation } from "@/lib/use-live-location";
 import { cn } from "@/lib/utils";
+
 
 export const Route = createFileRoute("/")({
   head: () => ({
