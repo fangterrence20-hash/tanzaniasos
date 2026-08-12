@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Ambulance, MessageSquare, Navigation, Phone, Smartphone, X } from "lucide-react";
+import { MessageSquare, Navigation, Phone, Smartphone, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
@@ -143,7 +143,15 @@ function DispatchScreen() {
             </button>
             <button
               type="button"
-              onClick={() => toast.success("Navigating")}
+              onClick={() =>
+                location
+                  ? window.open(
+                      `https://www.google.com/maps/search/?api=1&query=${location.lat},${location.lng}`,
+                      "_blank",
+                      "noopener",
+                    )
+                  : toast.error("No GPS fix yet")
+              }
               className="flex min-h-14 items-center justify-center gap-2 rounded-xl border border-border bg-secondary px-2 text-sm font-bold"
             >
               <Navigation className="size-4 shrink-0" aria-hidden />
