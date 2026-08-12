@@ -10,15 +10,15 @@ const LiveMap = lazy(() => import("@/components/LiveMap"));
 type Props = {
   lat?: number;
   lng?: number;
-  accuracy?: number;
+  accuracy?: number | undefined;
   status: LocationStatus;
-  unit?: { lat: number; lng: number } | null;
-  className?: string;
-  zoom?: number;
-  onRetry?: () => void;
+  unit?: { lat: number; lng: number } | null | undefined;
+  className?: string | undefined;
+  zoom?: number | undefined;
+  onRetry?: (() => void) | undefined;
 };
 
-function Placeholder({ status, onRetry }: { status: LocationStatus; onRetry?: () => void }) {
+function Placeholder({ status, onRetry }: { status: LocationStatus; onRetry?: (() => void) | undefined }) {
   const denied = status === "denied" || status === "unsupported" || status === "error";
   return (
     <div className="grid size-full place-items-center bg-secondary p-4 text-center">

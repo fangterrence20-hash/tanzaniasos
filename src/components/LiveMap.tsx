@@ -6,11 +6,11 @@ import { useEffect, useRef } from "react";
 type Props = {
   lat: number;
   lng: number;
-  accuracy?: number;
+  accuracy?: number | undefined;
   /** Optional second marker (responding unit). */
-  unit?: { lat: number; lng: number } | null;
-  className?: string;
-  zoom?: number;
+  unit?: { lat: number; lng: number } | null | undefined;
+  className?: string | undefined;
+  zoom?: number | undefined;
 };
 
 const userIcon = L.divIcon({
