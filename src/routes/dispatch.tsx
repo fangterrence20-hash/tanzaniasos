@@ -4,7 +4,9 @@ import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
 import { AppShell } from "@/components/AppShell";
+import { MapPanel } from "@/components/MapPanel";
 import { useLang } from "@/lib/i18n";
+import { threeWords, useLiveLocation } from "@/lib/use-live-location";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/dispatch")({
@@ -52,6 +54,8 @@ function DispatchScreen() {
   const [provider, setProvider] = useState<string>("mpesa");
   const [amount, setAmount] = useState("35000");
   const [phone, setPhone] = useState("0754 123 456");
+  const { location, status, place, retry } = useLiveLocation();
+  const unit = useApproachingUnit(location?.lat, location?.lng);
 
   useEffect(() => {
     const a = setTimeout(() => setStage(1), 2600);
@@ -72,7 +76,16 @@ function DispatchScreen() {
   return (
     <AppShell>
       <div className="space-y-4 px-4 py-5">
-        <MapBackdrop />
+        <MapPanel
+          lat={location?.lat}
+          lng={location?.lng}
+          accuracy={location?.accuracy}
+          status={status}
+          unit={stage >= 1 ? unit : null}
+          onRetry={retry}
+          zoom={15}
+          className="h-72"
+        />
 
         <section
           className={cn(
@@ -92,11 +105,13 @@ function DispatchScreen() {
             <div className="min-w-0">
               <p className="text-base font-bold leading-tight">{statusTitle}</p>
               <p className="mt-1 text-sm text-muted-foreground">
-                {stage === 1 ? `5 ${t("minsAway")} · Msimbazi St` : "Muhimbili · Dar es Salaam"}
+                {stage === 1
+                  ? `5 ${t("minsAway")} · ${place ?? "en route"}`
+                  : (place ?? "Locating you…")}
               </p>
               <div className="mt-3 flex flex-wrap gap-2 text-xs font-semibold">
                 <span className="rounded-full bg-secondary px-2.5 py-1">
-                  {t("yourLocation")}: ///filled.count.soap
+                  {t("yourLocation")}: {location ? threeWords(location.lat, location.lng) : "///…"}
                 </span>
                 <span className="rounded-full bg-secondary px-2.5 py-1">
                   {t("respondingUnit")}: TZ-AMB-114
