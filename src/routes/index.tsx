@@ -13,8 +13,11 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 
 import { AppShell } from "@/components/AppShell";
+import { MapPanel } from "@/components/MapPanel";
 import { useLang } from "@/lib/i18n";
+import { threeWords, useLiveLocation } from "@/lib/use-live-location";
 import { cn } from "@/lib/utils";
+
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -53,8 +56,11 @@ function HomeScreen() {
   const { t } = useLang();
   const navigate = useNavigate();
   const [progress, setProgress] = useState(0);
+  const { location, status, place, retry } = useLiveLocation();
+  const words = location ? threeWords(location.lat, location.lng) : "///…";
   const holding = useRef(false);
   const raf = useRef<number | null>(null);
+
 
   const stop = useCallback(() => {
     holding.current = false;
@@ -146,7 +152,7 @@ function HomeScreen() {
           </div>
         </section>
 
-        <section className="surface-card p-4">
+        <section className="surface-card space-y-3 p-4">
           <div className="grid grid-cols-[minmax(0,1fr)_auto] items-start gap-3">
             <div className="min-w-0">
               <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground">
@@ -154,25 +160,42 @@ function HomeScreen() {
               </p>
               <p className="mt-1 flex items-center gap-1.5 text-sm font-semibold">
                 <MapPin className="size-4 shrink-0 text-money" aria-hidden />
-                <span className="truncate">Kariakoo, Dar es Salaam</span>
+                <span className="truncate">
+                  {place ?? (location ? "Locating address…" : "Waiting for GPS…")}
+                </span>
               </p>
               <p className="mt-1 font-mono text-xs text-muted-foreground">
-                -6.81624, 39.27972 · ±8 m
+                {location
+                  ? `${location.lat.toFixed(5)}, ${location.lng.toFixed(5)} · ±${Math.round(location.accuracy)} m`
+                  : status === "denied"
+                    ? "Location permission denied"
+                    : "Acquiring signal…"}
               </p>
-              <p className="mt-2 font-mono text-base font-bold text-medical">
-                ///filled.count.soap
-              </p>
+              <p className="mt-2 font-mono text-base font-bold text-medical">{words}</p>
             </div>
             <button
               type="button"
               aria-label="Copy location"
-              onClick={() => toast.success("///filled.count.soap")}
+              onClick={() =>
+                location
+                  ? toast.success(`${words} · ${location.lat.toFixed(5)}, ${location.lng.toFixed(5)}`)
+                  : toast.error("No GPS fix yet")
+              }
               className="grid min-h-11 min-w-11 place-items-center rounded-lg border border-border bg-secondary text-foreground"
             >
               <Copy className="size-4" aria-hidden />
             </button>
           </div>
+          <MapPanel
+            lat={location?.lat}
+            lng={location?.lng}
+            accuracy={location?.accuracy}
+            status={status}
+            onRetry={retry}
+            className="h-56"
+          />
         </section>
+
 
         <button
           type="button"
