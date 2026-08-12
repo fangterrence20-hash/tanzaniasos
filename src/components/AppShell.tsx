@@ -90,6 +90,8 @@ const navItems = [
 
 export function AppShell({ children }: { children: ReactNode }) {
   const { t } = useLang();
+  const avatarInitials = useProfileInitials();
+
 
   return (
     <div className="mx-auto flex min-h-dvh w-full max-w-md flex-col bg-background">
