@@ -114,7 +114,7 @@ export function AppShell({ children }: { children: ReactNode }) {
             aria-label={t("profile")}
             className="grid size-10 shrink-0 place-items-center rounded-full bg-medical text-medical-foreground text-sm font-bold"
           >
-            AM
+            {avatarInitials}
           </Link>
         </div>
         <div className="flex min-w-0 items-center gap-2 px-4 pt-2 pb-3">
