@@ -1,11 +1,17 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Plus, Trash2, User } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
 import { AppShell } from "@/components/AppShell";
 import { Switch } from "@/components/ui/switch";
 import { useLang } from "@/lib/i18n";
+import {
+  defaultProfile,
+  loadProfile,
+  saveProfile,
+  type Contact,
+} from "@/lib/profile-storage";
 
 export const Route = createFileRoute("/profile")({
   head: () => ({
@@ -28,7 +34,7 @@ export const Route = createFileRoute("/profile")({
 
 const bloodTypes = ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"];
 
-type Contact = { id: number; name: string; phone: string };
+
 
 function Field({
   id,
@@ -74,15 +80,23 @@ function Field({
 
 function ProfileScreen() {
   const { t } = useLang();
-  const [name, setName] = useState("Asha Mwinyi");
-  const [blood, setBlood] = useState("O+");
-  const [allergies, setAllergies] = useState("Penicillin");
-  const [conditions, setConditions] = useState("Asthma");
-  const [sms, setSms] = useState(true);
-  const [contacts, setContacts] = useState<Contact[]>([
-    { id: 1, name: "Juma Mwinyi", phone: "+255 754 000 111" },
-    { id: 2, name: "Dr. Neema", phone: "+255 713 222 333" },
-  ]);
+  const [name, setName] = useState(defaultProfile.name);
+  const [blood, setBlood] = useState(defaultProfile.blood);
+  const [allergies, setAllergies] = useState(defaultProfile.allergies);
+  const [conditions, setConditions] = useState(defaultProfile.conditions);
+  const [sms, setSms] = useState(defaultProfile.sms);
+  const [contacts, setContacts] = useState<Contact[]>(defaultProfile.contacts);
+
+  useEffect(() => {
+    const stored = loadProfile();
+    if (!stored) return;
+    setName(stored.name);
+    setBlood(stored.blood);
+    setAllergies(stored.allergies);
+    setConditions(stored.conditions);
+    setSms(stored.sms);
+    setContacts(stored.contacts);
+  }, []);
 
   const updateContact = (id: number, patch: Partial<Contact>) =>
     setContacts((c) => c.map((x) => (x.id === id ? { ...x, ...patch } : x)));
@@ -93,9 +107,12 @@ function ProfileScreen() {
         className="space-y-5 px-4 py-5"
         onSubmit={(e) => {
           e.preventDefault();
+          saveProfile({ name, blood, allergies, conditions, sms, contacts });
+          window.dispatchEvent(new Event("tz-sos-profile-updated"));
           toast.success(t("saved"));
         }}
       >
+
         <header className="grid grid-cols-[auto_minmax(0,1fr)] items-center gap-3">
           <span className="grid size-12 shrink-0 place-items-center rounded-full bg-medical text-medical-foreground">
             <User className="size-6" aria-hidden />

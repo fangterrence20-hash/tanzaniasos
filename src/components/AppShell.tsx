@@ -4,7 +4,26 @@ import { useEffect, useState, type ReactNode } from "react";
 
 import logo from "@/assets/logo.png";
 import { useLang } from "@/lib/i18n";
+import { defaultProfile, initials, loadProfile } from "@/lib/profile-storage";
 import { cn } from "@/lib/utils";
+
+function useProfileInitials() {
+  const [value, setValue] = useState(() => initials(defaultProfile.name));
+
+  useEffect(() => {
+    const sync = () => setValue(initials((loadProfile() ?? defaultProfile).name));
+    sync();
+    window.addEventListener("tz-sos-profile-updated", sync);
+    window.addEventListener("storage", sync);
+    return () => {
+      window.removeEventListener("tz-sos-profile-updated", sync);
+      window.removeEventListener("storage", sync);
+    };
+  }, []);
+
+  return value;
+}
+
 
 function LanguageSwitcher() {
   const { lang, setLang } = useLang();
@@ -71,6 +90,8 @@ const navItems = [
 
 export function AppShell({ children }: { children: ReactNode }) {
   const { t } = useLang();
+  const avatarInitials = useProfileInitials();
+
 
   return (
     <div className="mx-auto flex min-h-dvh w-full max-w-md flex-col bg-background">
@@ -93,7 +114,7 @@ export function AppShell({ children }: { children: ReactNode }) {
             aria-label={t("profile")}
             className="grid size-10 shrink-0 place-items-center rounded-full bg-medical text-medical-foreground text-sm font-bold"
           >
-            AM
+            {avatarInitials}
           </Link>
         </div>
         <div className="flex min-w-0 items-center gap-2 px-4 pt-2 pb-3">
