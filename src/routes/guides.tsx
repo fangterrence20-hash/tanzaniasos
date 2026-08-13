@@ -54,12 +54,36 @@ function Illustration({ name, tone }: { name: string; tone: Guide["tone"] }) {
 
 function GuideDetail({ guide, onBack }: { guide: Guide; onBack: () => void }) {
   const { lang, t } = useLang();
+  const { speak, stop, speaking, supported, index } = useVoiceReader(lang);
+
+  const phrases = guide.steps.map(
+    (s, i) => `${t("step")} ${i + 1}. ${s.title[lang]}. ${s.body[lang]}`,
+  );
+
+  const playAll = () => {
+    if (!supported) {
+      toast.error(t("voiceUnsupported"));
+      return;
+    }
+    speak([`${guide.title[lang]}. ${guide.subtitle[lang]}.`, ...phrases]);
+  };
+
+  const playStep = (i: number) => {
+    if (!supported) {
+      toast.error(t("voiceUnsupported"));
+      return;
+    }
+    speak([phrases[i]]);
+  };
 
   return (
     <div className="space-y-4 px-4 py-5">
       <button
         type="button"
-        onClick={onBack}
+        onClick={() => {
+          stop();
+          onBack();
+        }}
         className="flex min-h-11 items-center gap-1 text-sm font-bold text-muted-foreground"
       >
         <ChevronLeft className="size-4" aria-hidden />
@@ -73,31 +97,62 @@ function GuideDetail({ guide, onBack }: { guide: Guide; onBack: () => void }) {
 
       <button
         type="button"
-        onClick={() => toast.success(t("playAudio"))}
-        className="flex min-h-12 w-full items-center justify-center gap-2 rounded-xl bg-medical text-sm font-bold text-medical-foreground"
+        onClick={speaking ? stop : playAll}
+        aria-pressed={speaking}
+        className={cn(
+          "flex min-h-12 w-full items-center justify-center gap-2 rounded-xl text-sm font-bold transition-colors",
+          speaking ? "bg-sos text-sos-foreground" : "bg-medical text-medical-foreground",
+        )}
       >
-        <Volume2 className="size-5" aria-hidden />
-        {t("playAudio")}
+        {speaking ? (
+          <Square className="size-5" aria-hidden />
+        ) : (
+          <Volume2 className="size-5" aria-hidden />
+        )}
+        {speaking ? t("stopAudio") : t("playAudio")}
       </button>
 
       <ol className="space-y-3">
-        {guide.steps.map((step, i) => (
-          <li key={step.illustration} className="surface-card space-y-3 p-4">
-            <div className="grid grid-cols-[auto_minmax(0,1fr)] items-center gap-3">
-              <span
-                className={cn(
-                  "grid size-10 shrink-0 place-items-center rounded-full text-base font-black",
-                  toneClass[guide.tone],
-                )}
-              >
-                {i + 1}
-              </span>
-              <h2 className="min-w-0 text-base font-bold leading-tight">{step.title[lang]}</h2>
-            </div>
-            <Illustration name={step.illustration} tone={guide.tone} />
-            <p className="text-sm leading-relaxed text-muted-foreground">{step.body[lang]}</p>
-          </li>
-        ))}
+        {guide.steps.map((step, i) => {
+          const active = speaking && index - 1 === i;
+          return (
+            <li
+              key={step.illustration}
+              className={cn(
+                "surface-card space-y-3 p-4 transition-colors",
+                active && "ring-2 ring-medical",
+              )}
+              aria-current={active ? "step" : undefined}
+            >
+              <div className="grid grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-3">
+                <span
+                  className={cn(
+                    "grid size-10 shrink-0 place-items-center rounded-full text-base font-black",
+                    toneClass[guide.tone],
+                  )}
+                >
+                  {i + 1}
+                </span>
+                <h2 className="min-w-0 text-base font-bold leading-tight">{step.title[lang]}</h2>
+                <button
+                  type="button"
+                  onClick={() => playStep(i)}
+                  aria-label={`${t("readStep")}: ${step.title[lang]}`}
+                  className="grid size-10 shrink-0 place-items-center rounded-full border border-border text-muted-foreground"
+                >
+                  <Volume2 className="size-4" aria-hidden />
+                </button>
+              </div>
+              <Illustration name={step.illustration} tone={guide.tone} />
+              <p className="text-sm leading-relaxed text-muted-foreground">{step.body[lang]}</p>
+              {active ? (
+                <p className="text-xs font-bold text-medical">
+                  {t("nowReading")} {i + 1}
+                </p>
+              ) : null}
+            </li>
+          );
+        })}
       </ol>
     </div>
   );
