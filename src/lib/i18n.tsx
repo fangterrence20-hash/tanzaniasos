@@ -84,6 +84,16 @@ export const dict = {
   noResults: { en: "No guides found", sw: "Hakuna mwongozo uliopatikana" },
   cancelEmergency: { en: "Cancel emergency", sw: "Ghairi dharura" },
   callNow: { en: "Call now", sw: "Piga sasa" },
+  stopAudio: { en: "Stop voice guide", sw: "Simamisha sauti" },
+  readStep: { en: "Read this step aloud", sw: "Soma hatua hii kwa sauti" },
+  voiceSearch: { en: "Speak to search", sw: "Sema ili kutafuta" },
+  listening: { en: "Listening…", sw: "Ninasikiliza…" },
+  voiceUnsupported: {
+    en: "Voice is not available on this device",
+    sw: "Sauti haipatikani kwenye kifaa hiki",
+  },
+  nowReading: { en: "Reading step", sw: "Inasoma hatua" },
+  guideCount: { en: "guides saved on this phone", sw: "miongozo imehifadhiwa kwenye simu hii" },
 } satisfies Dict;
 
 export type TKey = keyof typeof dict;
