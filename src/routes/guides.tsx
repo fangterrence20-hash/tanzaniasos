@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { ChevronLeft, ChevronRight, Search, Volume2 } from "lucide-react";
+import { ChevronLeft, ChevronRight, Mic, Search, Square, Volume2 } from "lucide-react";
 import { useMemo, useState } from "react";
 import { toast } from "sonner";
 
@@ -8,6 +8,7 @@ import { OfflineStatus } from "@/components/OfflineStatus";
 import { guides, type Guide } from "@/lib/guides";
 import { useLang } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
+import { useVoiceInput, useVoiceReader } from "@/lib/voice";
 
 export const Route = createFileRoute("/guides")({
   head: () => ({
