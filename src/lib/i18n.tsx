@@ -127,7 +127,8 @@ type Ctx = { lang: Lang; setLang: (l: Lang) => void; t: (k: TKey) => string };
 const LanguageContext = createContext<Ctx | null>(null);
 
 export function LanguageProvider({ children }: { children: ReactNode }) {
-  const [lang, setLangState] = useState<Lang>("en");
+  // Swahili is the primary default; a stored choice overrides it.
+  const [lang, setLangState] = useState<Lang>("sw");
 
   useEffect(() => {
     const stored = window.localStorage.getItem("tz-sos-lang");
