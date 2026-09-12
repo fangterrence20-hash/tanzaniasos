@@ -78,6 +78,28 @@ function HomeScreen() {
 
   useEffect(() => () => stop(), [stop]);
 
+  const share = useCallback(
+    (channel: "whatsapp" | "sms") => {
+      if (!location) {
+        toast.error(t("noGpsYet"));
+        return;
+      }
+      const message = emergencyMessage(location.lat, location.lng, words);
+      if (channel === "whatsapp") shareViaWhatsApp(message);
+      else shareViaSms(message, primaryIceNumber());
+    },
+    [location, t, words],
+  );
+
+  /** Without a data connection the alert falls back to a pre-filled SMS. */
+  const smsFallback = useCallback(() => {
+    if (typeof navigator !== "undefined" && navigator.onLine) return false;
+    if (!location) return false;
+    toast.warning(t("smsOfflineNotice"));
+    shareViaSms(emergencyMessage(location.lat, location.lng, words), primaryIceNumber());
+    return true;
+  }, [location, t, words]);
+
   const start = useCallback(() => {
     if (holding.current) return;
     holding.current = true;
