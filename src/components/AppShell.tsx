@@ -85,6 +85,7 @@ const navItems = [
   { to: "/", icon: Home, key: "home" },
   { to: "/dispatch", icon: Siren, key: "dispatch" },
   { to: "/guides", icon: BookOpen, key: "guides" },
+  { to: "/directory", icon: Hospital, key: "directory" },
   { to: "/profile", icon: User, key: "profile" },
 ] as const;
 
