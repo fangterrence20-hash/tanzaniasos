@@ -5,7 +5,9 @@ import {
   Copy,
   Flame,
   MapPin,
+  MessageSquare,
   Phone,
+  Share2,
   Shield,
   ShieldAlert,
 } from "lucide-react";
