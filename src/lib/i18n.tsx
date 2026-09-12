@@ -94,6 +94,30 @@ export const dict = {
   },
   nowReading: { en: "Reading step", sw: "Inasoma hatua" },
   guideCount: { en: "guides saved on this phone", sw: "miongozo imehifadhiwa kwenye simu hii" },
+  shareLocation: { en: "Share my location", sw: "Tuma mahali nilipo" },
+  shareWhatsapp: { en: "WhatsApp", sw: "WhatsApp" },
+  shareSms: { en: "SMS", sw: "SMS" },
+  smsOfflineNotice: {
+    en: "No data connection — sending by SMS instead",
+    sw: "Hakuna intaneti — inatuma kwa SMS",
+  },
+  noGpsYet: { en: "No GPS fix yet", sw: "Bado hakuna mahali (GPS)" },
+  directory: { en: "Nearby", sw: "Karibu" },
+  directoryTitle: { en: "Nearby help", sw: "Msaada wa karibu" },
+  directorySub: {
+    en: "Hospitals, police posts and pharmacies saved on this phone.",
+    sw: "Hospitali, vituo vya polisi na maduka ya dawa yamehifadhiwa kwenye simu hii.",
+  },
+  allTypes: { en: "All", sw: "Zote" },
+  hospitals: { en: "Hospitals", sw: "Hospitali" },
+  policePosts: { en: "Police", sw: "Polisi" },
+  pharmacies: { en: "Pharmacies", sw: "Maduka ya dawa" },
+  directions: { en: "Directions", sw: "Ramani" },
+  awayKm: { en: "km away", sw: "km kutoka hapa" },
+  sortedByRegion: {
+    en: "Turn on GPS to sort by distance.",
+    sw: "Washa GPS ili kupanga kwa umbali.",
+  },
 } satisfies Dict;
 
 export type TKey = keyof typeof dict;
