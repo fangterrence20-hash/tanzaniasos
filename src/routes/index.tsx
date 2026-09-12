@@ -111,13 +111,14 @@ function HomeScreen() {
       if (pct >= 1) {
         holding.current = false;
         setProgress(0);
+        smsFallback();
         navigate({ to: "/dispatch" });
         return;
       }
       raf.current = requestAnimationFrame(tick);
     };
     raf.current = requestAnimationFrame(tick);
-  }, [navigate]);
+  }, [navigate, smsFallback]);
 
   return (
     <AppShell>
