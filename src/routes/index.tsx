@@ -17,6 +17,12 @@ import { toast } from "sonner";
 import { AppShell } from "@/components/AppShell";
 import { MapPanel } from "@/components/MapPanel";
 import { useLang } from "@/lib/i18n";
+import {
+  emergencyMessage,
+  primaryIceNumber,
+  shareViaSms,
+  shareViaWhatsApp,
+} from "@/lib/share-location";
 import { threeWords, useLiveLocation } from "@/lib/use-live-location";
 import { cn } from "@/lib/utils";
 
