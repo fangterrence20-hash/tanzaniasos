@@ -5,7 +5,9 @@ import {
   Copy,
   Flame,
   MapPin,
+  MessageSquare,
   Phone,
+  Share2,
   Shield,
   ShieldAlert,
 } from "lucide-react";
@@ -15,6 +17,12 @@ import { toast } from "sonner";
 import { AppShell } from "@/components/AppShell";
 import { MapPanel } from "@/components/MapPanel";
 import { useLang } from "@/lib/i18n";
+import {
+  emergencyMessage,
+  primaryIceNumber,
+  shareViaSms,
+  shareViaWhatsApp,
+} from "@/lib/share-location";
 import { threeWords, useLiveLocation } from "@/lib/use-live-location";
 import { cn } from "@/lib/utils";
 
@@ -70,6 +78,28 @@ function HomeScreen() {
 
   useEffect(() => () => stop(), [stop]);
 
+  const share = useCallback(
+    (channel: "whatsapp" | "sms") => {
+      if (!location) {
+        toast.error(t("noGpsYet"));
+        return;
+      }
+      const message = emergencyMessage(location.lat, location.lng, words);
+      if (channel === "whatsapp") shareViaWhatsApp(message);
+      else shareViaSms(message, primaryIceNumber());
+    },
+    [location, t, words],
+  );
+
+  /** Without a data connection the alert falls back to a pre-filled SMS. */
+  const smsFallback = useCallback(() => {
+    if (typeof navigator !== "undefined" && navigator.onLine) return false;
+    if (!location) return false;
+    toast.warning(t("smsOfflineNotice"));
+    shareViaSms(emergencyMessage(location.lat, location.lng, words), primaryIceNumber());
+    return true;
+  }, [location, t, words]);
+
   const start = useCallback(() => {
     if (holding.current) return;
     holding.current = true;
@@ -81,13 +111,14 @@ function HomeScreen() {
       if (pct >= 1) {
         holding.current = false;
         setProgress(0);
+        smsFallback();
         navigate({ to: "/dispatch" });
         return;
       }
       raf.current = requestAnimationFrame(tick);
     };
     raf.current = requestAnimationFrame(tick);
-  }, [navigate]);
+  }, [navigate, smsFallback]);
 
   return (
     <AppShell>
@@ -186,6 +217,27 @@ function HomeScreen() {
               <Copy className="size-4" aria-hidden />
             </button>
           </div>
+          <div className="grid grid-cols-2 gap-2">
+            <button
+              type="button"
+              onClick={() => share("whatsapp")}
+              className="flex min-h-11 items-center justify-center gap-2 rounded-lg bg-money text-sm font-bold text-background"
+            >
+              <Share2 className="size-4" aria-hidden />
+              {t("shareWhatsapp")}
+            </button>
+            <button
+              type="button"
+              onClick={() => share("sms")}
+              className="flex min-h-11 items-center justify-center gap-2 rounded-lg border border-border bg-secondary text-sm font-bold text-foreground"
+            >
+              <MessageSquare className="size-4" aria-hidden />
+              {t("shareSms")}
+            </button>
+          </div>
+          <p className="text-center text-[11px] font-semibold uppercase tracking-wide text-muted-foreground">
+            {t("shareLocation")}
+          </p>
           <MapPanel
             lat={location?.lat}
             lng={location?.lng}

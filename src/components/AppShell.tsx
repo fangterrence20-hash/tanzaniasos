@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { BookOpen, Home, Siren, User, Wifi, WifiOff } from "lucide-react";
+import { BookOpen, Home, Hospital, Siren, User, Wifi, WifiOff } from "lucide-react";
 import { useEffect, useState, type ReactNode } from "react";
 
 import logo from "@/assets/logo.png";
@@ -85,6 +85,7 @@ const navItems = [
   { to: "/", icon: Home, key: "home" },
   { to: "/dispatch", icon: Siren, key: "dispatch" },
   { to: "/guides", icon: BookOpen, key: "guides" },
+  { to: "/directory", icon: Hospital, key: "directory" },
   { to: "/profile", icon: User, key: "profile" },
 ] as const;
 
