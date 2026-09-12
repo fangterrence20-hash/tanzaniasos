@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { BookOpen, Home, Siren, User, Wifi, WifiOff } from "lucide-react";
+import { BookOpen, Home, Hospital, Siren, User, Wifi, WifiOff } from "lucide-react";
 import { useEffect, useState, type ReactNode } from "react";
 
 import logo from "@/assets/logo.png";
