@@ -186,6 +186,27 @@ function HomeScreen() {
               <Copy className="size-4" aria-hidden />
             </button>
           </div>
+          <div className="grid grid-cols-2 gap-2">
+            <button
+              type="button"
+              onClick={() => share("whatsapp")}
+              className="flex min-h-11 items-center justify-center gap-2 rounded-lg bg-money text-sm font-bold text-background"
+            >
+              <Share2 className="size-4" aria-hidden />
+              {t("shareWhatsapp")}
+            </button>
+            <button
+              type="button"
+              onClick={() => share("sms")}
+              className="flex min-h-11 items-center justify-center gap-2 rounded-lg border border-border bg-secondary text-sm font-bold text-foreground"
+            >
+              <MessageSquare className="size-4" aria-hidden />
+              {t("shareSms")}
+            </button>
+          </div>
+          <p className="text-center text-[11px] font-semibold uppercase tracking-wide text-muted-foreground">
+            {t("shareLocation")}
+          </p>
           <MapPanel
             lat={location?.lat}
             lng={location?.lng}
