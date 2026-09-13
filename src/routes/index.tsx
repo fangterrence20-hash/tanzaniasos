@@ -275,7 +275,7 @@ function HomeScreen() {
         <button
           type="button"
           onClick={() => {
-            toast.success(t("silentPanic"));
+            void dispatchAlert("silent");
             navigate({ to: "/dispatch" });
           }}
           className="flex w-full items-center gap-3 rounded-xl border border-border bg-secondary p-4 text-left transition-colors hover:bg-accent"
