@@ -14,7 +14,66 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      incidents: {
+        Row: {
+          accuracy: number | null
+          allergies: string | null
+          blood_type: string | null
+          conditions: string | null
+          created_at: string
+          forward_status: string | null
+          forwarded_to: string | null
+          ice_contact: string | null
+          id: string
+          kind: string
+          language: string
+          lat: number | null
+          lng: number | null
+          patient_name: string | null
+          place: string | null
+          status: string
+          what3words: string | null
+        }
+        Insert: {
+          accuracy?: number | null
+          allergies?: string | null
+          blood_type?: string | null
+          conditions?: string | null
+          created_at?: string
+          forward_status?: string | null
+          forwarded_to?: string | null
+          ice_contact?: string | null
+          id?: string
+          kind?: string
+          language?: string
+          lat?: number | null
+          lng?: number | null
+          patient_name?: string | null
+          place?: string | null
+          status?: string
+          what3words?: string | null
+        }
+        Update: {
+          accuracy?: number | null
+          allergies?: string | null
+          blood_type?: string | null
+          conditions?: string | null
+          created_at?: string
+          forward_status?: string | null
+          forwarded_to?: string | null
+          ice_contact?: string | null
+          id?: string
+          kind?: string
+          language?: string
+          lat?: number | null
+          lng?: number | null
+          patient_name?: string | null
+          place?: string | null
+          status?: string
+          what3words?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
