@@ -63,7 +63,7 @@ const toneClass = {
 } as const;
 
 function HomeScreen() {
-  const { t } = useLang();
+  const { t, lang } = useLang();
   const navigate = useNavigate();
   const [progress, setProgress] = useState(0);
   const { location, status, place, retry } = useLiveLocation();
@@ -79,6 +79,26 @@ function HomeScreen() {
   }, []);
 
   useEffect(() => () => stop(), [stop]);
+
+  // Retry alerts that were stored while the phone had no data connection.
+  useEffect(() => {
+    const flush = () => void flushIncidentQueue();
+    flush();
+    window.addEventListener("online", flush);
+    return () => window.removeEventListener("online", flush);
+  }, []);
+
+  /** Logs the emergency and forwards it to the responder network. */
+  const dispatchAlert = useCallback(
+    async (kind: IncidentInput["kind"]) => {
+      const result = await sendIncident(
+        buildIncident(kind, location, location ? words : undefined, place, lang),
+      );
+      if (result === "sent") toast.success(t("alertSent"));
+      else toast.warning(t("alertQueued"));
+    },
+    [lang, location, place, t, words],
+  );
 
   const share = useCallback(
     (channel: "whatsapp" | "sms") => {
