@@ -102,6 +102,14 @@ export const dict = {
     sw: "Hakuna intaneti — inatuma kwa SMS",
   },
   noGpsYet: { en: "No GPS fix yet", sw: "Bado hakuna mahali (GPS)" },
+  alertSent: {
+    en: "Alert sent to responder network",
+    sw: "Taarifa imetumwa kwa mtandao wa waokoaji",
+  },
+  alertQueued: {
+    en: "Alert saved — it will send when you are back online",
+    sw: "Taarifa imehifadhiwa — itatumwa ukirudi mtandaoni",
+  },
   directory: { en: "Nearby", sw: "Karibu" },
   directoryTitle: { en: "Nearby help", sw: "Msaada wa karibu" },
   directorySub: {

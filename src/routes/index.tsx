@@ -17,6 +17,8 @@ import { toast } from "sonner";
 import { AppShell } from "@/components/AppShell";
 import { MapPanel } from "@/components/MapPanel";
 import { useLang } from "@/lib/i18n";
+import { buildIncident, flushIncidentQueue, sendIncident } from "@/lib/incident-client";
+import type { IncidentInput } from "@/lib/incidents.functions";
 import {
   emergencyMessage,
   primaryIceNumber,
