@@ -133,6 +133,7 @@ function HomeScreen() {
       if (pct >= 1) {
         holding.current = false;
         setProgress(0);
+        void dispatchAlert("sos");
         smsFallback();
         navigate({ to: "/dispatch" });
         return;
@@ -140,7 +141,7 @@ function HomeScreen() {
       raf.current = requestAnimationFrame(tick);
     };
     raf.current = requestAnimationFrame(tick);
-  }, [navigate, smsFallback]);
+  }, [dispatchAlert, navigate, smsFallback]);
 
   return (
     <AppShell>
