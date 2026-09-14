@@ -124,6 +124,74 @@
   }
 }
 
+.hazard-marker-shell {
+  background: transparent;
+  border: 0;
+}
+
+.hazard-marker {
+  display: grid;
+  width: 34px;
+  height: 34px;
+  place-items: center;
+  border: 3px solid var(--foreground);
+  border-radius: 50% 50% 50% 0;
+  color: var(--foreground);
+  font-size: 16px;
+  font-weight: 900;
+  line-height: 1;
+  box-shadow: 0 5px 16px oklch(0 0 0 / 55%);
+  transform: rotate(-45deg);
+}
+
+.hazard-marker::first-letter {
+  transform: rotate(45deg);
+}
+
+.hazard-marker--accident {
+  background: var(--sos);
+}
+
+.hazard-marker--flood {
+  background: var(--medical);
+}
+
+.hazard-marker--security {
+  background: var(--warning);
+  color: var(--warning-foreground);
+}
+
+.hazard-user-marker {
+  display: block;
+  width: 18px;
+  height: 18px;
+  border: 3px solid var(--foreground);
+  border-radius: 9999px;
+  background: var(--money);
+  box-shadow: 0 0 0 7px color-mix(in oklab, var(--money) 25%, transparent);
+}
+
+.leaflet-container:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: -2px;
+}
+
+.leaflet-control-attribution,
+.leaflet-control-zoom a {
+  background: var(--surface) !important;
+  color: var(--foreground) !important;
+}
+
+.leaflet-control-attribution a {
+  color: var(--medical) !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .leaflet-zoom-animated {
+    transition: none !important;
+  }
+}
+
 @utility surface-card {
   background-color: var(--color-surface);
   border: 1px solid var(--color-border);
