@@ -154,7 +154,7 @@ function HazardDirectory() {
       lng,
       reportedAt: Date.now(),
       confirmations: 1,
-      imageUrl,
+      ...(imageUrl ? { imageUrl } : {}),
     };
     setReports((current) => [report, ...current]);
     setSelectedId(report.id);
@@ -326,7 +326,10 @@ function HazardDirectory() {
                               <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
                                 {report.detail}
                               </p>
-                              <p className="mt-2 flex items-center gap-1.5 text-xs text-muted-foreground">
+                              <p
+                                className="mt-2 flex items-center gap-1.5 text-xs text-muted-foreground"
+                                suppressHydrationWarning
+                              >
                                 <Clock3 className="size-3.5" aria-hidden />
                                 {relativeTimeSw(report.reportedAt)}
                               </p>

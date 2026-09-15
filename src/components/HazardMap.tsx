@@ -7,10 +7,10 @@ import type { HazardCategory, HazardReport } from "@/lib/hazards";
 
 type Props = {
   hazards: HazardReport[];
-  userLocation?: { lat: number; lng: number };
+  userLocation?: { lat: number; lng: number } | undefined;
   selectedId: string | null;
   onSelect: (id: string) => void;
-  className?: string;
+  className?: string | undefined;
 };
 
 const iconByCategory: Record<HazardCategory, L.DivIcon> = {
