@@ -154,7 +154,7 @@ function HazardDirectory() {
       lng,
       reportedAt: Date.now(),
       confirmations: 1,
-      imageUrl,
+      ...(imageUrl ? { imageUrl } : {}),
     };
     setReports((current) => [report, ...current]);
     setSelectedId(report.id);

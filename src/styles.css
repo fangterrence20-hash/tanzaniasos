@@ -135,17 +135,12 @@
   height: 34px;
   place-items: center;
   border: 3px solid var(--foreground);
-  border-radius: 50% 50% 50% 0;
+  border-radius: 50%;
   color: var(--foreground);
   font-size: 16px;
   font-weight: 900;
   line-height: 1;
   box-shadow: 0 5px 16px oklch(0 0 0 / 55%);
-  transform: rotate(-45deg);
-}
-
-.hazard-marker::first-letter {
-  transform: rotate(45deg);
 }
 
 .hazard-marker--accident {
