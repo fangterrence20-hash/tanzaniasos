@@ -106,11 +106,11 @@ function HomeScreen() {
         toast.error(t("noGpsYet"));
         return;
       }
-      const message = emergencyMessage(location.lat, location.lng, words);
+      const message = emergencyMessage(location.lat, location.lng, words, lang);
       if (channel === "whatsapp") shareViaWhatsApp(message);
       else shareViaSms(message, primaryIceNumber());
     },
-    [location, t, words],
+    [lang, location, t, words],
   );
 
   /** Without a data connection the alert falls back to a pre-filled SMS. */
@@ -118,9 +118,9 @@ function HomeScreen() {
     if (typeof navigator !== "undefined" && navigator.onLine) return false;
     if (!location) return false;
     toast.warning(t("smsOfflineNotice"));
-    shareViaSms(emergencyMessage(location.lat, location.lng, words), primaryIceNumber());
+    shareViaSms(emergencyMessage(location.lat, location.lng, words, lang), primaryIceNumber());
     return true;
-  }, [location, t, words]);
+  }, [lang, location, t, words]);
 
   const start = useCallback(() => {
     if (holding.current) return;
@@ -215,25 +215,25 @@ function HomeScreen() {
               <p className="mt-1 flex items-center gap-1.5 text-sm font-semibold">
                 <MapPin className="size-4 shrink-0 text-money" aria-hidden />
                 <span className="truncate">
-                  {place ?? (location ? "Locating address…" : "Waiting for GPS…")}
+                  {place ?? (location ? t("locatingAddress") : t("waitingGps"))}
                 </span>
               </p>
               <p className="mt-1 font-mono text-xs text-muted-foreground">
                 {location
                   ? `${location.lat.toFixed(5)}, ${location.lng.toFixed(5)} · ±${Math.round(location.accuracy)} m`
                   : status === "denied"
-                    ? "Location permission denied"
-                    : "Acquiring signal…"}
+                    ? t("locationDenied")
+                    : t("acquiringGps")}
               </p>
               <p className="mt-2 font-mono text-base font-bold text-medical">{words}</p>
             </div>
             <button
               type="button"
-              aria-label="Copy location"
+              aria-label={t("copyLocation")}
               onClick={() =>
                 location
                   ? toast.success(`${words} · ${location.lat.toFixed(5)}, ${location.lng.toFixed(5)}`)
-                  : toast.error("No GPS fix yet")
+                  : toast.error(t("noGpsYet"))
               }
               className="grid min-h-11 min-w-11 place-items-center rounded-lg border border-border bg-secondary text-foreground"
             >

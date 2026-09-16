@@ -5,14 +5,22 @@ export function mapsLink(lat: number, lng: number) {
 }
 
 /** Builds the emergency message shared over WhatsApp or SMS. */
-export function emergencyMessage(lat: number, lng: number, words?: string) {
+export function emergencyMessage(lat: number, lng: number, words: string | undefined, lang: "en" | "sw") {
   const p = loadProfile() ?? defaultProfile;
-  const lines = [
-    "DHARURA / EMERGENCY - Tanzania SOS",
+  const lines = lang === "sw" ? [
+    "DHARURA - Tanzania SOS",
     `${p.name}${p.blood ? ` (${p.blood})` : ""}`,
-    p.allergies ? `Mzio / Allergies: ${p.allergies}` : null,
-    p.conditions ? `Magonjwa / Conditions: ${p.conditions}` : null,
-    `Mahali / Location: ${lat.toFixed(6)}, ${lng.toFixed(6)}`,
+    p.allergies ? `Mzio: ${p.allergies}` : null,
+    p.conditions ? `Magonjwa: ${p.conditions}` : null,
+    `Mahali: ${lat.toFixed(6)}, ${lng.toFixed(6)}`,
+    words ? `what3words: ${words}` : null,
+    mapsLink(lat, lng),
+  ] : [
+    "EMERGENCY - Tanzania SOS",
+    `${p.name}${p.blood ? ` (${p.blood})` : ""}`,
+    p.allergies ? `Allergies: ${p.allergies}` : null,
+    p.conditions ? `Conditions: ${p.conditions}` : null,
+    `Location: ${lat.toFixed(6)}, ${lng.toFixed(6)}`,
     words ? `what3words: ${words}` : null,
     mapsLink(lat, lng),
   ];

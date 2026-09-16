@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
 
 import logo from "@/assets/logo.png";
+import { useLang } from "@/lib/i18n";
 
 /**
  * Branded startup overlay. Renders above the app for a short beat on first
  * load, then fades out. Client-only so SSR never ships a hidden overlay.
  */
 export function SplashScreen({ duration = 1400 }: { duration?: number }) {
+  const { t } = useLang();
   const [phase, setPhase] = useState<"visible" | "leaving" | "gone">("visible");
 
   useEffect(() => {
@@ -39,7 +41,7 @@ export function SplashScreen({ duration = 1400 }: { duration?: number }) {
       </div>
       <h1 className="mt-6 text-2xl font-extrabold tracking-tight text-foreground">Tanzania SOS</h1>
       <p className="mt-1 text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-        Emergency &amp; First Aid
+        {t("appTagline")}
       </p>
       <div className="mt-8 h-1 w-28 overflow-hidden rounded-full bg-secondary">
         <div className="h-full w-1/3 animate-[splash-slide_1.1s_ease-in-out_infinite] rounded-full bg-sos" />
