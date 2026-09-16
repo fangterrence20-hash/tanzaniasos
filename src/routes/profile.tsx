@@ -175,13 +175,13 @@ function ProfileScreen() {
               <li key={c.id} className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-2">
                 <div className="min-w-0 space-y-2">
                   <input
-                    aria-label={`${t("iceContacts")} name`}
+                    aria-label={t("contactName")}
                     value={c.name}
                     onChange={(e) => updateContact(c.id, { name: e.target.value })}
                     className="min-h-11 w-full rounded-lg border border-input bg-secondary px-3 text-sm font-semibold outline-none"
                   />
                   <input
-                    aria-label={`${t("iceContacts")} phone`}
+                    aria-label={t("contactPhone")}
                     inputMode="tel"
                     value={c.phone}
                     onChange={(e) => updateContact(c.id, { phone: e.target.value })}
@@ -190,7 +190,7 @@ function ProfileScreen() {
                 </div>
                 <button
                   type="button"
-                  aria-label={`Remove ${c.name}`}
+                  aria-label={`${t("removeContact")}: ${c.name}`}
                   onClick={() => setContacts((list) => list.filter((x) => x.id !== c.id))}
                   className="grid min-h-11 min-w-11 place-items-center rounded-lg border border-border text-sos"
                 >

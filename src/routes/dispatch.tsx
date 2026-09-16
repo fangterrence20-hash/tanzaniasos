@@ -106,8 +106,8 @@ function DispatchScreen() {
               <p className="text-base font-bold leading-tight">{statusTitle}</p>
               <p className="mt-1 text-sm text-muted-foreground">
                 {stage === 1
-                  ? `5 ${t("minsAway")} · ${place ?? "en route"}`
-                  : (place ?? "Locating you…")}
+                  ? `5 ${t("minsAway")} · ${place ?? t("enRoute")}`
+                  : (place ?? t("locatingYou"))}
               </p>
               <div className="mt-3 flex flex-wrap gap-2 text-xs font-semibold">
                 <span className="rounded-full bg-secondary px-2.5 py-1">
@@ -150,7 +150,7 @@ function DispatchScreen() {
                       "_blank",
                       "noopener",
                     )
-                  : toast.error("No GPS fix yet")
+                  : toast.error(t("noGpsYet"))
               }
               className="flex min-h-14 items-center justify-center gap-2 rounded-xl border border-border bg-secondary px-2 text-sm font-bold"
             >
