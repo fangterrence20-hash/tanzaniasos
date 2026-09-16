@@ -3,6 +3,7 @@ import { Loader2, MapPinOff } from "lucide-react";
 import { Suspense, lazy } from "react";
 
 import type { LocationStatus } from "@/lib/use-live-location";
+import { useLang } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 
 const LiveMap = lazy(() => import("@/components/LiveMap"));
@@ -20,6 +21,7 @@ type Props = {
 };
 
 function Placeholder({ status, onRetry }: { status: LocationStatus; onRetry?: (() => void) | undefined }) {
+  const { t } = useLang();
   const denied = status === "denied" || status === "unsupported" || status === "error";
   return (
     <div className="grid size-full place-items-center bg-secondary p-4 text-center">
@@ -31,12 +33,12 @@ function Placeholder({ status, onRetry }: { status: LocationStatus; onRetry?: ((
         )}
         <p className="text-sm font-semibold">
           {status === "denied"
-            ? "Location permission denied"
+            ? t("locationDenied")
             : status === "unsupported"
-              ? "GPS not supported on this device"
+              ? t("locationUnsupported")
               : status === "error"
-                ? "Could not get GPS signal"
-                : "Acquiring GPS signal…"}
+                ? t("locationError")
+                : t("acquiringGps")}
         </p>
         {denied ? (
           <button
@@ -44,7 +46,7 @@ function Placeholder({ status, onRetry }: { status: LocationStatus; onRetry?: ((
             onClick={onRetry}
             className="min-h-10 rounded-lg border border-border px-3 text-xs font-bold"
           >
-            Try again
+            {t("retry")}
           </button>
         ) : null}
       </div>
@@ -74,8 +76,8 @@ export function MapPanel({
         {ready ? (
           <Suspense fallback={<Placeholder status="locating" />}>
             <LiveMap
-              lat={lat!}
-              lng={lng!}
+              lat={lat}
+              lng={lng}
               accuracy={accuracy}
               unit={unit}
               zoom={zoom}

@@ -26,11 +26,11 @@ function useProfileInitials() {
 
 
 function LanguageSwitcher() {
-  const { lang, setLang } = useLang();
+  const { lang, setLang, t } = useLang();
   return (
     <div
       role="group"
-      aria-label="Language"
+      aria-label={t("language")}
       className="flex shrink-0 items-center rounded-full border border-border bg-secondary p-1"
     >
       {(["en", "sw"] as const).map((l) => (
@@ -101,7 +101,7 @@ export function AppShell({ children }: { children: ReactNode }) {
           <Link to="/" className="flex min-w-0 items-center gap-2">
             <img
               src={logo}
-              alt="Tanzania SOS logo"
+              alt={t("logoAlt")}
               width={1024}
               height={1024}
               className="size-8 shrink-0 rounded-lg"
@@ -127,7 +127,7 @@ export function AppShell({ children }: { children: ReactNode }) {
       <main className="flex-1 pb-24">{children}</main>
 
       <nav
-        aria-label="Primary"
+        aria-label={t("primaryNavigation")}
         className="fixed inset-x-0 bottom-0 z-30 mx-auto flex w-full max-w-md items-stretch border-t border-border bg-surface"
       >
         {navItems.map(({ to, icon: Icon, key }) => (

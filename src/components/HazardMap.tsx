@@ -11,6 +11,8 @@ type Props = {
   selectedId: string | null;
   onSelect: (id: string) => void;
   className?: string | undefined;
+  mapLabel: string;
+  userLocationLabel: string;
 };
 
 const iconByCategory: Record<HazardCategory, L.DivIcon> = {
@@ -41,7 +43,7 @@ const userIcon = L.divIcon({
   iconAnchor: [10, 10],
 });
 
-export default function HazardMap({ hazards, userLocation, selectedId, onSelect, className }: Props) {
+export default function HazardMap({ hazards, userLocation, selectedId, onSelect, className, mapLabel, userLocationLabel }: Props) {
   const element = useRef<HTMLDivElement | null>(null);
   const mapRef = useRef<L.Map | null>(null);
   const layerRef = useRef<L.LayerGroup | null>(null);
@@ -109,13 +111,13 @@ export default function HazardMap({ hazards, userLocation, selectedId, onSelect,
     if (!userMarkerRef.current) {
       userMarkerRef.current = L.marker([userLocation.lat, userLocation.lng], {
         icon: userIcon,
-        title: "Mahali ulipo / Your location",
+        title: userLocationLabel,
         zIndexOffset: 1000,
       }).addTo(map);
     } else {
       userMarkerRef.current.setLatLng([userLocation.lat, userLocation.lng]);
     }
-  }, [userLocation]);
+  }, [userLocation, userLocationLabel]);
 
   useEffect(() => {
     const marker = selectedId ? markersRef.current.get(selectedId) : undefined;
@@ -125,5 +127,5 @@ export default function HazardMap({ hazards, userLocation, selectedId, onSelect,
     marker.openTooltip();
   }, [selectedId]);
 
-  return <div ref={element} className={className} aria-label="Ramani ya hatari zilizo karibu" />;
+  return <div ref={element} className={className} aria-label={mapLabel} />;
 }
