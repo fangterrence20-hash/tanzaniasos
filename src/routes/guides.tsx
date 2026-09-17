@@ -145,7 +145,7 @@ function GuideDetail({ guide, onBack }: { guide: Guide; onBack: () => void }) {
                   <Volume2 className="size-4" aria-hidden />
                 </button>
               </div>
-              <Illustration name={step.illustration} tone={guide.tone} />
+              <Illustration name={step.title[lang]} tone={guide.tone} />
               <p className="text-sm leading-relaxed text-muted-foreground">{step.body[lang]}</p>
               {active ? (
                 <p className="text-xs font-bold text-medical">

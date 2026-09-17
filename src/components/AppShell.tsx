@@ -46,7 +46,7 @@ function LanguageSwitcher() {
               : "text-muted-foreground hover:text-foreground",
           )}
         >
-          {l}
+              {l === "en" ? "EN" : "SW"}
         </button>
       ))}
     </div>
