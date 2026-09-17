@@ -60,7 +60,7 @@ export const dict = {
     sw: "Inafanya kazi bila intaneti. Fuata hatua kwa mpangilio.",
   },
   search: { en: "Search guides…", sw: "Tafuta miongozo…" },
-  playAudio: { en: "Play Swahili Audio Guide", sw: "Sikiliza Mwongozo wa Sauti" },
+  playAudio: { en: "Play Audio Guide", sw: "Sikiliza Mwongozo wa Sauti" },
   step: { en: "Step", sw: "Hatua" },
   back: { en: "Back", sw: "Rudi" },
   profileTitle: { en: "Medical Profile", sw: "Wasifu wa Kiafya" },
